@@ -1,0 +1,19 @@
+name: template
+channels:
+  - conda-forge
+dependencies:
+  - boto3
+  - flask-restx
+  - flask=2.1.2
+  - gevent
+  - gunicorn
+  - isort
+  - pip
+  - pytest
+  - python=3.10
+  - requests
+  - werkzeug=2.1.2
+  - pip:
+      - config-probe
+      - pytest-cov
+      - tox-conda

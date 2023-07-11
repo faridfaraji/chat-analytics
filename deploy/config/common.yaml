@@ -1,0 +1,4 @@
+database:
+  host: "http://localhost"
+  port: "8002"
+  version: "v1"
