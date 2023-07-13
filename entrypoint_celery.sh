@@ -14,7 +14,7 @@ fi
 for ((i=1; i<=NUM_WORKERS; i++))
 do
     echo "Starting worker $i..."
-    celery -A awesoon.celery.tasks worker --loglevel=info &
+    celery -A chat_analytics.celery.tasks worker --loglevel=info &
 done
 
 # Wait for all background processes to finish
