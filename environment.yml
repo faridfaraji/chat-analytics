@@ -15,6 +15,7 @@ dependencies:
   - requests
   - openai
   - werkzeug=2.1.2
+  - tiktoken
   - pip:
       - celery
       - config-probe
