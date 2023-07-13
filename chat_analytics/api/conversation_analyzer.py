@@ -41,7 +41,7 @@ class ConversationAnalyzer(Resource):
 @ns.route("/queued")
 class ConversationsQ(Resource):
     @ns.expect(queue_parser)
-    def post(self):
+    def get(self):
         args = queue_parser.parse_args()
         conv_ids = get_queued_conversations(offset=args["offset"], limit=args["limit"])
         return conv_ids, 200
