@@ -23,5 +23,6 @@ class ConversationSummary(Artifact):
         return {
             "summary": self.summary,
             "title": self.title,
-            "classifications": self.classifications
+            "classifications": self.classifications,
+            "satisfaction": self.satisfaction
         }
