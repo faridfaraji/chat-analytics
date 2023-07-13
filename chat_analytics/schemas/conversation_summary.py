@@ -13,6 +13,7 @@ class ConversationSummary(Artifact):
     title: str = ""
     classifications: str = ""
     conversation_id: str = ""
+    satisfaction: str = ""
 
     @classmethod
     def make_object(cls, data: dict):

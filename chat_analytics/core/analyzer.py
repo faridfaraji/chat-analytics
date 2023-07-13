@@ -28,6 +28,7 @@ User_summary: A summary of the user's messages.
 AI_summary: A summary of the AI's messages.
 Title: A title that represents the main topic or issue of the conversation.
 Classifications: a comma separated list of tags that are relevant to the conversation.
+Satisfaction: one of happy, neutral, unhappy.
 ======================
 
 Each of these components should be output as a separate line.
