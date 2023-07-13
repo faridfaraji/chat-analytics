@@ -3,6 +3,7 @@ from flask_restx import Namespace, Resource
 from chat_analytics.celery.tasks import get_queued_conversations, save_conversation_analysis_task
 
 from chat_analytics.core.analyzer import analyze_conversation, analyze_conversations
+from chat_analytics.core.exceptions import ArtifactTooLargeError
 
 
 ns = Namespace(
@@ -29,8 +30,12 @@ class ConversationAnalyzerPriority(Resource):
 @ns.route("/<conversation_id>/analyze")
 class ConversationAnalyzer(Resource):
     def post(self, conversation_id):
-        save_conversation_analysis_task.delay(conversation_id)
-        return {"message": "Conversation under analysis"}, 200
+        result = save_conversation_analysis_task.delay(conversation_id)
+        try:
+            result.get(timeout=5)
+            return {"message": "Conversation under analysis"}, 200
+        except ArtifactTooLargeError as e:
+            return {"message": "Conversation is too large"}, 400
 
 
 @ns.route("/queued")
@@ -39,5 +44,4 @@ class ConversationsQ(Resource):
     def post(self):
         args = queue_parser.parse_args()
         conv_ids = get_queued_conversations(offset=args["offset"], limit=args["limit"])
-        conv_ids = [c.decode("utf-8") for c in conv_ids]
         return conv_ids, 200

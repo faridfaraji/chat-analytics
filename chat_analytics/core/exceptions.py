@@ -1,0 +1,4 @@
+
+
+class ArtifactTooLargeError(Exception):
+    ...
