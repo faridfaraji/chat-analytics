@@ -1,4 +1,6 @@
+celery_broker:
+  port: "6379"
+  host: "redis://localhost"
 database:
-  host: "http://localhost"
   port: "8002"
-  version: "v1"
+  api_version: "v1"

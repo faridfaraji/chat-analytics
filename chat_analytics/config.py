@@ -13,4 +13,11 @@ def load(environment):
     logging.info("Loading config {} and {}".format(config_file, env_config_file))
 
     config = probe(path=str(RESOURCES_PATH), patterns=[config_file, env_config_file])
+    config.database.url = f"{config.database.host}:{config.database.port}/{config.database.api_version}"
+    config.celery_broker.url = f"{config.celery_broker.host}:{config.celery_broker.port}"
+    config.database.url_api_version = f"{config.database.host}:{config.database.port}/{config.database.api_version}"
+
     return config
+
+
+config = load(ENV)

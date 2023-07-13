@@ -1,5 +1,5 @@
 # Project configuration
-PROJECT_NAME = template
+PROJECT_NAME = chat-analytics
 
 # General Parameters
 TOPDIR = $(shell git rev-parse --show-toplevel)
