@@ -32,7 +32,7 @@ run: ## Run the service with gunicorn
 run-celery: # Run celery workers
 	./entrypoint_celery.sh $(NUM_WORKERS)
 
-run-celery-beat: # Run celery workers
+run-celery-beat: # Run celery beat
 	celery -A chat_analytics.celery.tasks beat --loglevel=info
 
 test: ## Run tox
