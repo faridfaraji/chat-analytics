@@ -29,6 +29,12 @@ run: ## Run the service with gunicorn
 	FLASK_APP=template.app \
 	./entrypoint.sh
 
+run-celery: # Run celery workers
+	./entrypoint_celery.sh $(NUM_WORKERS)
+
+run-celery-beat: # Run celery workers
+	celery -A chat_analytics.celery.tasks beat --loglevel=info
+
 test: ## Run tox
 	tox
 

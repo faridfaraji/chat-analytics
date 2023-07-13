@@ -20,6 +20,8 @@ app.conf.task_default_queue = "analysis_tasks_queue"
 redis_conn = Redis()
 
 CONV_ANAL_TASK_QUEUE = "conversation_analysis_task_queue"
+PERIOD_TIME = 60
+BATCH_SIZE = 20
 
 
 def add_to_queue(conversation_id):
@@ -35,9 +37,8 @@ def save_conversation_analysis_task(conversation_id):
 
 @app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
-    print("in setup_periodic_tasks")
     sender.add_periodic_task(
-        10,
+        PERIOD_TIME,
         process_bulk_tasks.s(),
     )
 
@@ -45,9 +46,8 @@ def setup_periodic_tasks(sender, **kwargs):
 @app.task
 def process_bulk_tasks():
     # process tasks here
-    batch = 20
     try:
-        conversation_ids = redis_conn.zrange(CONV_ANAL_TASK_QUEUE, 0, batch - 1)
+        conversation_ids = redis_conn.zrange(CONV_ANAL_TASK_QUEUE, 0, BATCH_SIZE - 1)
         if conversation_ids:
             redis_conn.zrem(CONV_ANAL_TASK_QUEUE, *conversation_ids)
             print(conversation_ids)
