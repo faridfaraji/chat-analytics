@@ -20,8 +20,12 @@ app.conf.task_default_queue = "analysis_tasks_queue"
 redis_conn = Redis()
 
 CONV_ANAL_TASK_QUEUE = "conversation_analysis_task_queue"
-PERIOD_TIME = 60
+PERIOD_TIME = 90
 BATCH_SIZE = 20
+
+
+def get_queued_conversations(offset=0, limit=10):
+    return redis_conn.zrange(CONV_ANAL_TASK_QUEUE, offset, limit)
 
 
 def add_to_queue(conversation_id):
@@ -47,10 +51,11 @@ def setup_periodic_tasks(sender, **kwargs):
 def process_bulk_tasks():
     # process tasks here
     try:
-        conversation_ids = redis_conn.zrange(CONV_ANAL_TASK_QUEUE, 0, BATCH_SIZE - 1)
+        conversation_ids = get_queued_conversations(limit=BATCH_SIZE)
         if conversation_ids:
             redis_conn.zrem(CONV_ANAL_TASK_QUEUE, *conversation_ids)
             print(conversation_ids)
+            conversation_ids = [c.decode("utf-8") for c in conversation_ids]
             analyze_conversations(conversation_ids)
     except Exception as e:
         logging.exception("could not process bulk tasks")

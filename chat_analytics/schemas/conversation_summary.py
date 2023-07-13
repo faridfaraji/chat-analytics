@@ -11,7 +11,7 @@ class ConversationSummary(Artifact):
     ai_summary: str = ""
     user_summary: str = ""
     title: str = ""
-    classifications: List[str] = None
+    classifications: str = ""
     conversation_id: str = ""
 
     @classmethod
@@ -19,9 +19,8 @@ class ConversationSummary(Artifact):
         return cls(**{k: v for k, v in data.items() if k in cls.__annotations__})
 
     def to_dict(self):
-        classification = ", ".join(self.classifications) if self.classifications else None
         return {
             "summary": self.summary,
             "title": self.title,
-            "classifications": classification,
+            "classifications": self.classifications
         }
