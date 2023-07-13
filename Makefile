@@ -1,5 +1,5 @@
 # Project configuration
-PROJECT_NAME = template
+PROJECT_NAME = chat-analytics
 
 # General Parameters
 TOPDIR = $(shell git rev-parse --show-toplevel)
@@ -28,6 +28,12 @@ run: ## Run the service with gunicorn
 	cd $(TOPDIR) && \
 	FLASK_APP=template.app \
 	./entrypoint.sh
+
+run-celery: # Run celery workers
+	./entrypoint_celery.sh $(NUM_WORKERS)
+
+run-celery-beat: # Run celery beat
+	celery -A chat_analytics.celery.tasks beat --loglevel=info
 
 test: ## Run tox
 	tox
