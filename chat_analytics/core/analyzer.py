@@ -23,7 +23,7 @@ messages: list of JSON objects, each having a 'type' key that denotes whether th
 As an expert summarizer, your task is to generate summaries for each conversation in the following enclosed format in HUMAN LANGUAGE and MUST FOLLOW THE FOLLLOWING ENCLOSED FORMAT ONLY and NOTHING ELSE:
 ======================
 Conversation_id: <id>
-Summary: A summary of the entire conversation.
+Summary: A summary of the entire conversation. PUT AI's SECTION IN [] AND USER's IN ().
 User_summary: A summary of the user's messages.
 AI_summary: A summary of the AI's messages.
 Title: A title that represents the main topic or issue of the conversation.
