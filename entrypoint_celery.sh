@@ -1,4 +1,5 @@
 #!/bin/bash
+. activate chat-analytics
 
 # Get the number of workers from the first script argument
 NUM_WORKERS=$1

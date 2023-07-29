@@ -17,7 +17,8 @@ SHELL ["mamba", "run", "-n", "chat-analytics", "/bin/bash", "-c"]
 
 FROM requirements as container
 COPY . .
+RUN chmod +x entrypoint_celery_beat.sh
 
 EXPOSE $APP_EXPOSED_PORT
 ENV FLASK_DEBUG 1
-CMD ["celery", "-A", "chat_analytics.celery.tasks", "beat", "--loglevel=info"]
+CMD ["./entrypoint_celery_beat.sh"]
