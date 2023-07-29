@@ -1,5 +1,6 @@
 # Project configuration
 PROJECT_NAME = chat-analytics
+DOCKER_REGISTRY_REPO = northamerica-northeast1-docker.pkg.dev/iron-burner-389219/awesoon
 
 # General Parameters
 TOPDIR = $(shell git rev-parse --show-toplevel)
@@ -34,6 +35,33 @@ run-celery: # Run celery workers
 
 run-celery-beat: # Run celery beat
 	celery -A chat_analytics.celery.tasks beat --loglevel=info
+
+build-docker: ## Build the docker image
+	docker build $(DOCKER_PLATFORM) -t $(PROJECT_NAME) .
+
+build-docker-celery: ## Build the docker celery image
+	docker build $(DOCKER_PLATFORM) -t $(PROJECT_NAME)-celery -f build/celery/Dockerfile .
+
+build-docker-celery-beat: ## Build the docker celery beat image
+	docker build $(DOCKER_PLATFORM) -t $(PROJECT_NAME)-celery-beat -f build/celery_beats/Dockerfile .
+
+tag-docker: ## Tag the docker image
+	docker tag $(PROJECT_NAME) $(DOCKER_REGISTRY_REPO)/$(PROJECT_NAME):latest
+
+tag-docker-celery: ## Tag the docker celery image
+	docker tag $(PROJECT_NAME)-celery $(DOCKER_REGISTRY_REPO)/$(PROJECT_NAME)-celery:latest
+
+tag-docker-celery-beat: ## Tag the docker celery image
+	docker tag $(PROJECT_NAME)-celery-beat $(DOCKER_REGISTRY_REPO)/$(PROJECT_NAME)-celery-beat:latest
+
+push-docker: ## push the image to registry
+	docker push $(DOCKER_REGISTRY_REPO)/$(PROJECT_NAME):latest
+
+push-docker-celery: ## push the image to registry
+	docker push $(DOCKER_REGISTRY_REPO)/$(PROJECT_NAME)-celery:latest
+
+push-docker-celery-beat: ## push the image to registry
+	docker push $(DOCKER_REGISTRY_REPO)/$(PROJECT_NAME)-celery-beat:latest
 
 test: ## Run tox
 	tox
