@@ -1,2 +1,4 @@
 database:
-  host: "http://localhost"
+  host: "http://db-api"
+celery_broker:
+  host: "redis://10.129.143.243"

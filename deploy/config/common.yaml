@@ -1,6 +1,5 @@
 celery_broker:
   port: "6379"
-  host: "redis://localhost"
 database:
   port: "8002"
   api_version: "v1"
